@@ -1,0 +1,63 @@
+/* Globales */
+
+*::after,
+*::before,
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0 auto;
+    max-width: 1200px;
+    font-family: Tahoma;
+    color: grey;
+}
+
+.icon-cart{
+    width: 40px;
+    height: 40px;
+}
+
+img{
+    max-width: 100%;
+}
+
+/*Header*/
+
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0 40px 0;
+}
+
+.container_citas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.citas{
+    border-radius: 10px;
+}
+
+.citas:hover{
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.info_cita{
+    padding: 15px 30px;
+}
+
+.citas img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.citas:hover img{
+    transform: scale(1.2);
+
+}
