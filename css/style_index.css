@@ -8,9 +8,12 @@
     box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'fuenteVOGUE';
+  src: url('fonts/Vogue.ttf') format('truetype');
+}
+
 body{
-    margin: 0 auto;
-    max-width: 1200px;
     font-family: Tahoma;
     color: grey;
 }
@@ -29,7 +32,7 @@ img{
 header{
     display: flex;
     justify-content: space-between;
-    padding: 30px 0 40px 0;
+    padding: 20px 0 10px 0;
 }
 
 .container_citas {
@@ -57,7 +60,48 @@ header{
     border-radius: 10px 10px 0 0;
 }
 
-.citas:hover img{
-    transform: scale(1.2);
-
+.banner{
+    width:100%;
+    display:block;
+    margin:0;
+    padding:0;
 }
+
+.carrito_flotante{ /* CSS para que el carrito de compras esté siempre en la pantalla en la esquina de abajo*/
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(108,172,212);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulos{
+    font-family: fuenteVOGUE;
+    font-size: 2.5rem;
+    color: rgba(56,138,178,255);
+    text-decoration:underline;
+}
+
+.boton{
+    background:linear-gradient(to right, #1685b5, #43aaf4);
+    padding: 1rem 2rem; 
+    font-size: 1.2rem;
+    color: white;
+    border: none;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+.boton:hover{
+    transform:scale(1.1);
+}
+
+
+
