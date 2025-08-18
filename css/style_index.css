@@ -10,11 +10,11 @@
 
 @font-face {
     font-family: 'fuenteVOGUE';
-    src: url('../fonts/Vogue.ttf') format('truetype');
+    src: url('../assets/fonts/Vogue.ttf') format('truetype');
 }
 
 body{
-    font-family: Tahoma;
+    font-family: Tahoma, serif;
     color: grey;
 }
 
@@ -222,7 +222,7 @@ header{
 
 
 .titulos{
-    font-family: fuenteVOGUE;
+    font-family: fuenteVOGUE, serif;
     font-size: 2.5rem;
     color: rgba(56,138,178,255);
     text-decoration:underline;
@@ -312,6 +312,24 @@ header{
     font-size:2.5rem;
     color:rgb(255, 255, 255);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Celulares muy muy pequeños (sera un reloj) */
 @media (max-width: 180px) {
