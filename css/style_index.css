@@ -370,7 +370,7 @@ header{
 }
 
 /* Celulares muy pequeños */
-@media (min-width: 181px) and (max-width: 359px) {
+@media (min-width: 181px) and (max-width: 329px) {
     .container_citas{
         display: grid;
         grid-template-columns: 1fr;
