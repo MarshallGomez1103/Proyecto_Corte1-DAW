@@ -1,5 +1,5 @@
 // Selección de elementos del DOM para el carrito flotante
-const bntCart = document.querySelector(".container-icon.carrito_flotante")
+const bntCart = document.querySelector(".container-icon")
 const containerCartProducts = document.querySelector(".container-cart-products")
 
 // Event listener para mostrar/ocultar el carrito al hacer clic en el icono
