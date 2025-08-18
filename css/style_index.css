@@ -31,7 +31,7 @@ img{
 /*Header*/
 
 .banner{
-    width:100%;
+    width: 100%;
     display:block;
     margin:0;
     padding:0;
@@ -59,7 +59,8 @@ header{
 
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
+
     border-radius: 50%;
 }
 
@@ -70,12 +71,12 @@ header{
 .container-cart-products{
     position: fixed;
     bottom: 90px;
-    right: 0;
+    right: 10px;
 
     background-color: #fff;
     width: 400px;
     z-index: 1;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.30);
     border-radius: 10px;
 
 
@@ -153,12 +154,14 @@ header{
 }
 
 
-
 .container_citas {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    padding: 20px;
 }
+
+
 
 .citas{
     border-radius: 10px;
@@ -218,13 +221,12 @@ header{
 }
 
 
-
-
 .titulos{
     font-family: fuenteVOGUE;
     font-size: 2.5rem;
     color: rgba(56,138,178,255);
     text-decoration:underline;
+    padding: 20px;
 }
 
 .info_cita button{
@@ -265,7 +267,10 @@ header{
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     z-index: 1;
+    transition: all .5s;
 }
+
+
 
 .footer-overlay {
     position: absolute;
@@ -279,6 +284,7 @@ header{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: all .5s;
 }
 
 .footer-text {
@@ -307,16 +313,229 @@ header{
     color:rgb(255, 255, 255);
 }
 
-.foto-mapa{
-    position:absolute;
-    top:50%;
-    transform: translateY(-50%);
-    left:2%;
-    width:30%;
-    height:auto;
-    z-index:2;
+/* Celulares muy muy pequeños (sera un reloj) */
+@media (max-width: 180px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 
+    .footer-overlay{
+        transform-origin: center;
+    }
+
+    * {
+        font-size: 1vh;
+    }
+
+    .mapa-cita iframe{
+        display: block;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        position: static;
+        width: 100%;
+        max-width: 359px;
+        min-width: 0;
+        height: 200px;
+        box-sizing: border-box;
+    }
+    .mapa-footer {
+        display: none;
+    }
+
+    .container-cart-products{
+        transform: scale(0.4);
+        bottom: 40px;
+        right: -110px;
+    }
 }
 
+/* Celulares muy pequeños */
+@media (min-width: 181px) and (max-width: 359px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 
+    .footer-overlay{
+        transform-origin: center;
+    }
 
+    * {
+        font-size: 1vh;
+    }
+
+    .mapa-cita iframe{
+        display: block;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        position: static;
+        width: 100%;
+        max-width: 359px;
+        min-width: 0;
+        height: 200px;
+        box-sizing: border-box;
+    }
+    .mapa-footer {
+        display: none;
+    }
+
+    .container-cart-products{
+        transform: scale(0.6);
+        bottom: 55px;
+        right: -65px;
+    }
+}
+
+/* Celulares pequeños */
+@media (min-width: 330px) and (max-width: 480px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .footer-overlay{
+        transform-origin: center;
+    }
+
+    * {
+        font-size: 1.5vh;
+    }
+
+    .mapa-cita iframe{
+        display: block;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0 , 0,0.5);
+        position: static;
+        width: 100%;
+        max-width: 390px;
+        min-width: 0;
+        height: 200px;
+        box-sizing: border-box;
+    }
+
+    .mapa-footer {
+        display: none;
+    }
+
+    .container-cart-products{
+        transform: scale(0.8);
+        bottom: 70px;
+        right: -35px;
+    }
+}
+
+/* Celulares medianos */
+@media (min-width: 481px) and (max-width: 625px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .footer-overlay{
+        transform: scale(0.7);
+        transform-origin: center;
+    }
+
+    * {
+        font-size: 1.05rem;
+    }
+
+    .mapa-cita iframe{
+        display: block;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0 , 0,0.5);
+        position: static;
+        width: 100%;
+        max-width: 625px;
+        min-width: 0;
+        height: 350px;
+        box-sizing: border-box;
+    }
+
+    .mapa-footer {
+        display: none;
+    }
+}
+
+/* Celulares grandes */
+@media (min-width: 626px) and (max-width: 767px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-overlay{
+        transform: scale(0.45);
+        transform-origin: center;
+    }
+
+    * {
+        font-size: 1.1rem;
+    }
+
+    .mapa-cita {
+        display: none;
+    }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-overlay{
+        transform: scale(0.6);
+        transform-origin: center;
+    }
+
+    * {
+        font-size: 1.1rem;
+    }
+
+    .mapa-cita {
+        display: none;
+    }
+}
+
+/* Laptops */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .footer-overlay{
+        transform: scale(0.7);
+        transform-origin: center;
+    }
+
+    * {
+        font-size: 1.1rem;
+    }
+
+    .mapa-cita {
+        display: none;
+    }
+}
+
+/* Monitores grandes */
+@media (min-width: 1441px) {
+    .container_citas{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    * {
+        font-size: 1.1rem;
+    }
+
+    .mapa-cita {
+        display: none;
+    }
+}
