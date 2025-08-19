@@ -178,17 +178,17 @@ showHTML()
 //Aqui esta lo de la informacion de cada cita
 
 // Seleccionar todos los elementos con clase "titulo"
-const titulos = document.querySelectorAll(".titulo");
+const botones = document.querySelectorAll(".plus");
 
 // Añadir event listener a cada título
-titulos.forEach(titulo => {
+botones.forEach(plus => {
 
-    titulo.addEventListener("click", () => {
+    plus.addEventListener("click", () => {
         //console.log(true);
 
         // Buscar el contenedor de información más cercano al título
         // Subimos al padre (info_cita) y luego al siguiente hermano (container-info-products)
-        const infoContainer = titulo.parentElement.nextElementSibling;
+        const infoContainer = plus.closest(".citas").querySelector(".container-info-products");
 
         // Alternar la clase hidden-info para mostrar/ocultar
         if (infoContainer && infoContainer.classList.contains("container-info-products")) {

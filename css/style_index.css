@@ -168,19 +168,35 @@ header{
     padding: 20px;
 }
 
-.titulo{
-    transition: font-size .5s;
+.info {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
 }
 
-.titulo:hover {
-    transition: font-size .5s;
+.info_cita .titulo {
+    margin: 0;
+}
+
+.info_cita .plus{
+    padding: 10px 10px;
+    margin: 0;
+}
+
+.plus{
+    transition: all .5s;
+}
+
+.plus:hover {
+    transition: all.5s;
     color: white;
-    font-size: larger;
+    font-size: xx-large;
     cursor: pointer;
-    background: #3fa6ec;
-    margin: auto;
-    padding: 5px;
-    border-radius: 10px;
+    border-radius: 50%;
+}
+.info_cita .plus:hover{
+    padding: 0px 10px;
 }
 
 
@@ -339,8 +355,46 @@ header{
     display: none;
 }
 
-.hidden-info {
-    display: none;
+.info_cita{
+    opacity: 1;
+    transition: all .5s ease-in-out;
+    overflow: hidden;
+    height: auto;
+}
+.container-info-products {
+    transition: all .5s ease-in-out;
+    max-height: 1000px; /* Para poner mas contenido y que quede animado modificamos esto*/
+    opacity: 1;
+    overflow: hidden;
+}
+
+.info_cita .container-info-products{
+    opacity: 1;
+    transition: all .5s ease-in-out;
+    line-height: 1.2;
+    text-align: justify;
+}
+
+.container-info-products.hidden-info {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+
+    pointer-events: none;
+    transition: all .5s ease-in-out;
+}
+
+.descripcion h3{
+    padding: 15px 0; /*Para separar descripcion del contenido*/
+}
+
+.descripcion p {
+    padding-bottom: 15px;
+}
+
+iframe {
+    border-radius: 10px;
 }
 
 
