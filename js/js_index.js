@@ -171,3 +171,28 @@ const showHTML = () => {
 
 // Inicializa la visualización del carrito al cargar la página
 showHTML()
+
+
+
+
+//Aqui esta lo de la informacion de cada cita
+
+// Seleccionar todos los elementos con clase "titulo"
+const titulos = document.querySelectorAll(".titulo");
+
+// Añadir event listener a cada título
+titulos.forEach(titulo => {
+
+    titulo.addEventListener("click", () => {
+        //console.log(true);
+
+        // Buscar el contenedor de información más cercano al título
+        // Subimos al padre (info_cita) y luego al siguiente hermano (container-info-products)
+        const infoContainer = titulo.parentElement.nextElementSibling;
+
+        // Alternar la clase hidden-info para mostrar/ocultar
+        if (infoContainer && infoContainer.classList.contains("container-info-products")) {
+            infoContainer.classList.toggle("hidden-info");
+        }
+    });
+});

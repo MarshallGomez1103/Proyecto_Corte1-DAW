@@ -168,6 +168,21 @@ header{
     padding: 20px;
 }
 
+.titulo{
+    transition: font-size .5s;
+}
+
+.titulo:hover {
+    transition: font-size .5s;
+    color: white;
+    font-size: larger;
+    cursor: pointer;
+    background: #3fa6ec;
+    margin: auto;
+    padding: 5px;
+    border-radius: 10px;
+}
+
 
 
 .citas{
@@ -321,6 +336,10 @@ header{
 }
 
 .hidden {
+    display: none;
+}
+
+.hidden-info {
     display: none;
 }
 
