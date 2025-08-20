@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Carrito de Compras </title>
+    <link rel="stylesheet" href="css/style_index.css">
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
+
+
+</head>
+<body>
+<a href="index.html"><img class="banner" src="assets/images/banner.png"></a>
+<header>
+    <h1 class="titulos"> Carrito de Compras </h1>
+</header>
+
+<div id="cart"></div>
+
+<script>
+    const carrito = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartDiv = document.getElementById("cart");
+
+    if (carrito.length === 0) {
+      cartDiv.innerHTML = "<p>El carrito está vacío</p>";
+    } else {
+      carrito.forEach(p => {
+        cartDiv.innerHTML += `<p>${p.quantity} × ${p.title} - ${p.priceText}</p>`;
+      });
+    }
+  </script>
+
+
+
+
+</body>
+</html>

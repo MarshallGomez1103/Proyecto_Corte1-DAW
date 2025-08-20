@@ -107,7 +107,7 @@ rowProduct.addEventListener('click', (e) => {
     }
 });
 
-
+const btnPagar  =  document.querySelector(".btn-pagar");
 // ==================== RENDERIZADO DEL CARRITO ====================
 
 // Función para actualizar el HTML del carrito basado en el estado actual
@@ -116,6 +116,7 @@ const showHTML = () => {
     if (!allProducts.length) {
         // Si está vacío, muestra el mensaje "carrito vacío"
         cartEmpty.classList.remove('hidden');
+        btnPagar.classList.add("hidden")
         // Oculta la sección de productos y el total
         rowProduct.classList.add('hidden');
         cartTotal.classList.add('hidden');
@@ -128,6 +129,8 @@ const showHTML = () => {
         // Muestra la sección de productos y el total
         rowProduct.classList.remove('hidden');
         cartTotal.classList.remove('hidden');
+        btnPagar.classList.remove("hidden");
+        
     }
 
     // Limpia el contenido actual del carrito
@@ -196,3 +199,15 @@ botones.forEach(plus => {
         }
     });
 });
+
+//EL BOTON DE PAGAR 
+
+bnt-pagar.addEventListener("click", () => {
+    containerCartProducts.classList.toggle("hidden-cart")
+})
+
+//LOCAL STORAGE PARA EL CARRITO
+
+localStorage.setItem("cart", JSON.stringify(allProducts));
+const carrito = JSON.parse(localStorage.getItem("cart")) || [];
+showHTML();
