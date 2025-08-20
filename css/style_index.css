@@ -265,6 +265,9 @@ header{
     color: rgba(56,138,178,255);
     text-decoration:underline;
     padding: 20px;
+    width: 100%;
+    display: block;
+    text-align: center;
 }
 
 .info_cita button{
