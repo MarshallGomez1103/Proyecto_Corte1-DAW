@@ -108,75 +108,48 @@ rowProduct.addEventListener('click', (e) => {
 });
 
 const btnPagar  =  document.querySelector(".btn-pagar");
-// ==================== RENDERIZADO DEL CARRITO ====================
 
-// Función para actualizar el HTML del carrito basado en el estado actual
-const showHTML = () => {
-    // Verifica si el carrito está vacío
-    if (!allProducts.length) {
-        // Si está vacío, muestra el mensaje "carrito vacío"
+// ==================== RENDERIZADO DEL CARRITO ====================//
+// función para mostrar los productos en la pagina del carrito con su total //
+ const showHTML = () => {
+if (!allProducts.length) {
         cartEmpty.classList.remove('hidden');
-        btnPagar.classList.add("hidden")
-        // Oculta la sección de productos y el total
+        btnPagar.classList.add("hidden");
         rowProduct.classList.add('hidden');
         cartTotal.classList.add('hidden');
-
-        rowProduct.innerHTML = '';
-
+    rowProduct.innerHTML = '';
     } else {
-        // Si hay productos, oculta el mensaje "carrito vacío"
-        cartEmpty.classList.add('hidden');
-        // Muestra la sección de productos y el total
-        rowProduct.classList.remove('hidden');
-        cartTotal.classList.remove('hidden');
-        btnPagar.classList.remove("hidden");
-        
+    cartEmpty.classList.add('hidden');
+    rowProduct.classList.remove('hidden');
+    cartTotal.classList.remove('hidden');
+     btnPagar.classList.remove("hidden");
     }
 
-    // Limpia el contenido actual del carrito
-    rowProduct.innerHTML = "";
-
-    // Variables para calcular el total monetario y la cantidad de productos
-    let total = 0;
-    let totalOfProducts = 0;
-
-    // Recorre todos los productos en el carrito
+rowProduct.innerHTML = "";
+ let total = 0;
+let totalOfProducts = 0;
     allProducts.forEach(product => {
-        // Crea un contenedor para cada producto
-        const containerProduct = document.createElement("div")
-        containerProduct.classList.add("cart-product")
-
-        // Genera el HTML para el producto en el carrito
+        const containerProduct = document.createElement("div");
+        containerProduct.classList.add("cart-product");
         containerProduct.innerHTML = `
             <div class="info-cart-product">
                 <span class="cantidad-producto-carrito">${product.quantity}</span>
                 <p class="titulo-producto-carrito">${product.title}</p>
-                <span class="precio-producto-carrito">${product.priceText}</span>
+                <span class="precio-producto-carrito">$${product.price.toLocaleString('es-CO')}</span>
             </div>
             <ion-icon name="close-outline" class="icon-close"></ion-icon>
-        `
-
-        // Añade el producto al contenedor del carrito
+        `;
         rowProduct.append(containerProduct);
-
-        // Actualiza el total monetario (precio × cantidad)
         total += product.quantity * product.price;
-
-        // Actualiza el contador total de productos
-        totalOfProducts = totalOfProducts + product.quantity;
+        totalOfProducts += product.quantity;
     });
 
-    // Actualiza el texto del total monetario con formato de moneda colombiana
-    valorTotal.innerText = `$` + total.toLocaleString('es-CO');
-    // Actualiza el contador de productos en el carrito
+    valorTotal.innerText = `$${total.toLocaleString('es-CO')}`;
     countProducts.innerText = totalOfProducts;
+
+    // 🔥 Guardar en localStorage cada vez que cambia
+    localStorage.setItem("cart", JSON.stringify(allProducts));
 }
-
-// Inicializa la visualización del carrito al cargar la página
-showHTML()
-
-
-
 
 //Aqui esta lo de la informacion de cada cita
 
@@ -205,9 +178,3 @@ botones.forEach(plus => {
 bnt-pagar.addEventListener("click", () => {
     containerCartProducts.classList.toggle("hidden-cart")
 })
-
-//LOCAL STORAGE PARA EL CARRITO
-
-localStorage.setItem("cart", JSON.stringify(allProducts));
-const carrito = JSON.parse(localStorage.getItem("cart")) || [];
-showHTML();
