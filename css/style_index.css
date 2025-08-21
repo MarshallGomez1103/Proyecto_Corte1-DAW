@@ -660,3 +660,29 @@ iframe {
         display: none;
     }
 }
+
+.grid-contacto{
+  display:grid;
+  grid-template-columns: 1fr 2fr;
+  gap:1rem;
+  align-items:center;
+}
+
+form {
+  max-width: 800px;       /* para que el formulario no sea tan ancho */
+  padding: 20px;
+  text-align: left;
+}
+
+.grid-contacto label p {
+  grid-column: span 2;   /* cada label ocupa el ancho completo */
+  margin-bottom: 5px;
+}
+
+.grid-contacto input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;           /* ocupa el ancho de su celda, no de toda la pantalla */
+  box-sizing: border-box;
+}
