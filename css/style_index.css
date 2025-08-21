@@ -417,6 +417,25 @@ iframe {
     border-radius: 10px;
 }
 
+/*El parrafo que describe la empresa*/
+
+.description {
+    padding: 15px;
+    background-color: rgba(240, 240, 240, 1);
+    border-radius: 15px;
+    width: 90%;
+
+    margin: auto;
+}
+
+.description:hover{
+    background-color: rgba(245, 245, 245, 1);
+    color: black;
+    transform: scale(1.2);
+    width: 80%;
+    margin: 20px auto;
+}
+
 
 
 
@@ -509,6 +528,9 @@ iframe {
         right: -65px;
     }
 }
+
+
+
 
 /* Celulares pequeños */
 @media (min-width: 330px) and (max-width: 480px) {
