@@ -1,0 +1,157 @@
+/* Personalizacion del carrito */
+:root{
+    --azul1:#1685b5;
+    --azul2:#43aaf4;
+    --gris-borde:#e6eef6;
+    --gris-texto:#3a3a3a; /*Nombre, email...*/
+    --bg-suave:#f9fbfd;
+}
+
+
+.resumen{
+    background:#fff;
+    border-radius:14px;
+    padding: 30px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    margin: 0 auto;
+    width: 60%;
+}
+
+
+.resumen table{
+    width:100%;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+    transition: all .5s;
+}
+
+.resumen:hover{
+    transform: scale(1.1);
+    box-shadow: 10px 8px 24px rgba(0,0,0, .2);
+    margin: 60px auto;
+    font-size: larger;
+}
+
+.resumen thead th{
+    background:linear-gradient(to right, var(--azul1), var(--azul2)); /* El estilo de los nombres de las columnas */
+    color:#fff;
+    text-align:left;
+    font-weight:700;
+    padding:12px 16px;
+}
+
+.resumen tbody td{
+    padding:12px 16px;
+    border-bottom:1px solid #f1f3f6;
+    color:#4a4a4a;
+    transition: all .5s;
+}
+
+.resumen tbody tr:hover{
+    background: #eef7ff;
+    transform: scale(1.1);
+    overflow: visible;
+    text-align: center;
+    transition: all .5s;
+}
+
+.resumen tbody tr:hover td {
+    color: #000000;
+    font-weight: 700;
+    transition: all .5s;
+}
+
+#total{
+    text-align:right;
+    margin-top:12px;
+    font-size: larger;
+    font-weight:800;
+    color:var(--azul1);
+    transition: all .5s;
+}
+
+#total:hover{
+    font-size: larger;
+    transition: all .5s;
+}
+
+/* Formulario */
+form{
+    background:#fff;
+    border-radius:14px;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 10px 8px 24px rgba(0,0,0,.08);
+    transition: all .5s;
+
+    /*Que se demore un rato mientras el usuario pone los datos*/
+    transition-delay: 10s;
+}
+
+form:hover{
+    transform: scale(1.1);
+    box-shadow: 10px 8px 24px rgba(0,0,0, .2);
+    margin: 60px auto;
+    transition: all .5s;
+}
+
+form p{
+    margin: 10px 0 15px;
+    font-weight:600;
+    color:var(--gris-texto);
+}
+
+.grid-contacto{
+    row-gap: 20px;
+}
+
+.grid-contacto label{
+    font-weight:600;
+    color:var(--gris-texto);
+}
+
+/* Inputs (nombre, email, celular) */
+.grid-contacto input,
+#fecha{
+    background:var(--bg-suave);
+    border:1.5px solid var(--gris-borde);
+    border-radius:10px;
+    padding:10px 12px;
+    transition: all .5s;
+    color:#222;
+}
+
+.grid-contacto input::placeholder,
+#fecha::placeholder{
+    color:#9aa7b4;
+}
+
+.grid-contacto input:focus,
+#fecha:focus{
+    outline:none;
+    background:#fff;
+    border-color:var(--azul2);
+    box-shadow:0 0 0 4px rgba(67,170,244,.15);
+}
+
+.button-send{
+    background:linear-gradient(to right, var(--azul1), var(--azul2));
+    color:#fff;
+    font-weight:700;
+    border:none;
+    border-radius:10px;
+    padding: 25px 30px;
+    cursor:pointer;
+    display:block;
+    margin:20px 0 0 auto;
+    box-shadow:0 6px 14px rgba(67,170,244,.30);
+    transition:transform .15s ease, box-shadow .15s ease, filter .2s ease;
+}
+
+.button-send:hover{
+    transform:translateY(-1px) scale(1.1);
+    box-shadow:0 10px 18px rgba(67,170,244,.35);
+    filter:brightness(1.02);
+}
