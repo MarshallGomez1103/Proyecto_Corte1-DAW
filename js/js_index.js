@@ -1,13 +1,20 @@
+window.onload = () => {
+
+// Llama la función cuando cargue la página
+cargarProductos();
+agregarEventos();
+
+}
 
 //URLS de la Api de google sheets
 const API_SERVICIOS= "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
 
-// Selección del contenedor en tu index.html donde quieres mostrar productos
-const container = document.querySelector(".container_citas");
 
 async function cargarProductos() {
     try {
-        const response = await fetch(API_SERCIVIOS);
+        // Selección del contenedor en tu index.html donde quieres mostrar productos
+        const container = document.querySelector(".container_citas");
+        const response = await fetch(API_SERVICIOS);
         const json = await response.json();
 
         // Ahora accedemos a json.data, porque ahí vienen los productos
@@ -16,7 +23,7 @@ async function cargarProductos() {
         console.log("Productos recibidos:", data); // Para verificar
 
         // Limpiar el contenedor antes de renderizar
-        container.innerHTML = "";
+        container.innerHTML = " ";
 
         // Iterar sobre cada producto
         data.forEach(prod => {
@@ -34,7 +41,7 @@ async function cargarProductos() {
                         <div class="container-info-products hidden-info">
                             <div class="descripcion hidden-info">
                                 <h3>Descripción:</h3>
-                                <p class="Descripcion">${prod.descripción}</p>
+                                <p class="descripcion">${prod.descripcion}</p>
                             </div>
                             ${prod.video_url ? `
                             <div class="video">
@@ -52,9 +59,6 @@ async function cargarProductos() {
         container.innerHTML = "<p>Error al cargar los productos. Intenta más tarde.</p>";
     }
 }
-
-// Llama la función cuando cargue la página
-cargarProductos();
 
 // Selección de elementos del DOM para el carrito flotante
 const bntCart = document.querySelector(".container-icon")
@@ -94,48 +98,53 @@ const cartTotal = document.querySelector('.cart-total');    // Sección que mues
 // ==================== AGREGAR PRODUCTOS AL CARRITO ====================
 
 // Event listener para los botones "Agregar al carrito" en la lista de productos
-productsList.addEventListener("click", e => {
-    // Verifica si el elemento clickeado tiene la clase 'btn-add-cart'
-    if(e.target.classList.contains("btn-add-cart")){
-        // Obtiene el elemento padre (el contenedor del producto)
-        const product = e.target.parentElement
-        const priceEl = product.querySelector(".price");
 
-        // Crea un objeto con la información del producto seleccionado
-        const infoProduct = {
-            quantity: 1,                                           // Cantidad inicial: 1
-            title: product.querySelector("h2").textContent,        // Título del producto
-            price: Number(priceEl.dataset.price),                  // Precio como número para cálculos
-            priceText: priceEl.textContent                         // Precio formateado para mostrar
+// crearle una función para ejecutar después de cargar productos
+
+function agregarEventos(){
+    productsList.addEventListener("click", e => {
+        // Verifica si el elemento clickeado tiene la clase 'btn-add-cart'
+        if(e.target.classList.contains("btn-add-cart")){
+            // Obtiene el elemento padre (el contenedor del producto)
+            const product = e.target.parentElement
+            const priceEl = product.querySelector(".price");
+    
+            // Crea un objeto con la información del producto seleccionado
+            const infoProduct = {
+                quantity: 1,                                           // Cantidad inicial: 1
+                title: product.querySelector("h2").textContent,        // Título del producto
+                price: Number(priceEl.dataset.price),                  // Precio como número para cálculos
+                priceText: priceEl.textContent                         // Precio formateado para mostrar
+            }
+    
+            // Verifica si el producto ya existe en el carrito
+            const exist = allProducts.some(product => product.title === infoProduct.title)
+    
+            if (exist){
+                // Si el producto ya existe, aumenta su cantidad en 1
+                const products = allProducts.map(product =>{
+                    if(product.title === infoProduct.title){
+                        product.quantity++;  // Incrementa la cantidad
+                        return product
+                    } else {
+                        return product       // Mantiene otros productos sin cambios
+                    }
+                })
+                // Actualiza el array de productos con las nuevas cantidades
+                allProducts = [...products]
+    
+            } else {
+                // Si el producto no existe en el carrito, lo agrega
+                allProducts = [...allProducts, infoProduct] // Usa operador spread para combinar arrays
+    
+            }
+    
+            // Actualiza la visualización HTML del carrito
+            showHTML()
         }
-
-        // Verifica si el producto ya existe en el carrito
-        const exist = allProducts.some(product => product.title === infoProduct.title)
-
-        if (exist){
-            // Si el producto ya existe, aumenta su cantidad en 1
-            const products = allProducts.map(product =>{
-                if(product.title === infoProduct.title){
-                    product.quantity++;  // Incrementa la cantidad
-                    return product
-                } else {
-                    return product       // Mantiene otros productos sin cambios
-                }
-            })
-            // Actualiza el array de productos con las nuevas cantidades
-            allProducts = [...products]
-
-        } else {
-            // Si el producto no existe en el carrito, lo agrega
-            allProducts = [...allProducts, infoProduct] // Usa operador spread para combinar arrays
-
-        }
-
-        // Actualiza la visualización HTML del carrito
-        showHTML()
-    }
-
-});
+    
+    });
+}
 
 
 // ==================== ELIMINAR PRODUCTOS DEL CARRITO ====================
@@ -205,7 +214,7 @@ let totalOfProducts = 0;
     valorTotal.innerText = `$${total.toLocaleString('es-CO')}`;
     countProducts.innerText = totalOfProducts;
 
-    // 🔥 Guardar en localStorage cada vez que cambia
+    // Guardar en localStorage cada vez que cambia
     localStorage.setItem("cart", JSON.stringify(allProducts));
 }
 
