@@ -1,3 +1,61 @@
+
+//URLS de la Api de google sheets
+const API_SERVICIOS= "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
+
+// Selección del contenedor en tu index.html donde quieres mostrar productos
+const container = document.querySelector(".container_citas");
+
+async function cargarProductos() {
+    try {
+        const response = await fetch(API_SERCIVIOS);
+        const json = await response.json();
+
+        // Ahora accedemos a json.data, porque ahí vienen los productos
+        const data = json.data;
+
+        console.log("Productos recibidos:", data); // Para verificar
+
+        // Limpiar el contenedor antes de renderizar
+        container.innerHTML = "";
+
+        // Iterar sobre cada producto
+        data.forEach(prod => {
+            const productoHTML = `
+                <div class="citas">
+                    <figure>
+                        <img src="${prod.imagen_url}" alt="${prod.titulo}">
+                    </figure>
+                    <div class="info_cita">
+                        <div class="info">
+                            <h2 class="titulo">${prod.titulo}</h2>
+                            <button class="plus">+</button>
+                        </div>
+                        <p class="price" data-price="${prod.precio}">$${prod.precio}</p>
+                        <div class="container-info-products hidden-info">
+                            <div class="descripcion hidden-info">
+                                <h3>Descripción:</h3>
+                                <p class="Descripcion">${prod.descripción}</p>
+                            </div>
+                            ${prod.video_url ? `
+                            <div class="video">
+                                <iframe width="100%" height="200" src="${prod.video_url}" frameborder="0" allowfullscreen></iframe>
+                            </div>` : ""}
+                        </div>
+                        <button class="boton btn-add-cart">Add to cart</button>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += productoHTML;
+        });
+    } catch (error) {
+        console.error("Error cargando productos:", error);
+        container.innerHTML = "<p>Error al cargar los productos. Intenta más tarde.</p>";
+    }
+}
+
+// Llama la función cuando cargue la página
+cargarProductos();
+
 // Selección de elementos del DOM para el carrito flotante
 const bntCart = document.querySelector(".container-icon")
 const containerCartProducts = document.querySelector(".container-cart-products")
