@@ -1,10 +1,8 @@
-window.onload = () => {
-
-// Llama la función cuando cargue la página
-cargarProductos();
-agregarEventos();
-
-}
+window.addEventListener("DOMContentLoaded", async () => {
+    await cargarProductos();   // Espera a que carguen los productos
+    agregarEventos();          // Después conecta los eventos dinámicos
+    eventosDescripcion();      // Conecta los botones "+" de descripción
+});
 
 //URLS de la Api de google sheets
 const API_SERVICIOS= "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
@@ -16,14 +14,14 @@ async function cargarProductos() {
         const container = document.querySelector(".container_citas");
         const response = await fetch(API_SERVICIOS);
         const json = await response.json();
-
+    
         // Ahora accedemos a json.data, porque ahí vienen los productos
         const data = json.data;
 
         console.log("Productos recibidos:", data); // Para verificar
 
         // Limpiar el contenedor antes de renderizar
-        container.innerHTML = " ";
+        container.innerHTML = "";
 
         // Iterar sobre cada producto
         data.forEach(prod => {
@@ -56,7 +54,7 @@ async function cargarProductos() {
         });
     } catch (error) {
         console.error("Error cargando productos:", error);
-        container.innerHTML = "<p>Error al cargar los productos. Intenta más tarde.</p>";
+        document.querySelector(".container_citas").innerHTML = "<p>Error al cargar los productos. Intenta más tarde.</p>";
     }
 }
 
@@ -102,49 +100,39 @@ const cartTotal = document.querySelector('.cart-total');    // Sección que mues
 // crearle una función para ejecutar después de cargar productos
 
 function agregarEventos(){
+    // Delegación de eventos en el contenedor padre
     productsList.addEventListener("click", e => {
-        // Verifica si el elemento clickeado tiene la clase 'btn-add-cart'
+
         if(e.target.classList.contains("btn-add-cart")){
-            // Obtiene el elemento padre (el contenedor del producto)
-            const product = e.target.parentElement
+            const product = e.target.closest(".info_cita")
             const priceEl = product.querySelector(".price");
-    
-            // Crea un objeto con la información del producto seleccionado
+
             const infoProduct = {
-                quantity: 1,                                           // Cantidad inicial: 1
-                title: product.querySelector("h2").textContent,        // Título del producto
-                price: Number(priceEl.dataset.price),                  // Precio como número para cálculos
-                priceText: priceEl.textContent                         // Precio formateado para mostrar
+                quantity: 1,
+                title: product.querySelector("h2").textContent,
+                price: Number(priceEl.dataset.price),
+                priceText: priceEl.textContent
             }
-    
-            // Verifica si el producto ya existe en el carrito
-            const exist = allProducts.some(product => product.title === infoProduct.title)
-    
+
+            const exist = allProducts.some(p => p.title === infoProduct.title)
+
             if (exist){
-                // Si el producto ya existe, aumenta su cantidad en 1
-                const products = allProducts.map(product =>{
-                    if(product.title === infoProduct.title){
-                        product.quantity++;  // Incrementa la cantidad
-                        return product
-                    } else {
-                        return product       // Mantiene otros productos sin cambios
+                allProducts = allProducts.map(p =>{
+                    if(p.title === infoProduct.title){
+                        p.quantity++;
                     }
+                    return p;
                 })
-                // Actualiza el array de productos con las nuevas cantidades
-                allProducts = [...products]
-    
             } else {
-                // Si el producto no existe en el carrito, lo agrega
-                allProducts = [...allProducts, infoProduct] // Usa operador spread para combinar arrays
-    
+                allProducts.push(infoProduct)
             }
-    
-            // Actualiza la visualización HTML del carrito
+
             showHTML()
         }
-    
+
     });
 }
+
 
 
 // ==================== ELIMINAR PRODUCTOS DEL CARRITO ====================
@@ -220,28 +208,13 @@ let totalOfProducts = 0;
 
 //Aqui esta lo de la informacion de cada cita
 
-// Seleccionar todos los elementos con clase "titulo"
-const botones = document.querySelectorAll(".plus");
-
-// Añadir event listener a cada título
-botones.forEach(plus => {
-
-    plus.addEventListener("click", () => {
-        //console.log(true);
-
-        // Buscar el contenedor de información más cercano al título
-        // Subimos al padre (info_cita) y luego al siguiente hermano (container-info-products)
-        const infoContainer = plus.closest(".citas").querySelector(".container-info-products");
-
-        // Alternar la clase hidden-info para mostrar/ocultar
-        if (infoContainer && infoContainer.classList.contains("container-info-products")) {
-            infoContainer.classList.toggle("hidden-info");
+function eventosDescripcion(){
+    document.addEventListener("click", (e) => {
+        if(e.target.classList.contains("plus")){
+            const infoContainer = e.target.closest(".citas").querySelector(".container-info-products");
+            if (infoContainer) {
+                infoContainer.classList.toggle("hidden-info");
+            }
         }
     });
-});
-
-//EL BOTON DE PAGAR 
-
-bnt-pagar.addEventListener("click", () => {
-    containerCartProducts.classList.toggle("hidden-cart")
-})
+}
