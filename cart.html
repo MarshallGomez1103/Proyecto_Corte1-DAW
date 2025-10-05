@@ -36,9 +36,9 @@
     <h3 id="total"></h3>
 </main>
 
-<form>
+<form id="pedidoForm">
     <div class="grid-contacto">
-        <label for="Nombre">Nombre y Apellido: </label>
+        <label for="Nombre">Nombre: </label>
         <input type="text" id="Nombre" name="Nombre" placeholder="Escribe aquí tu nombre completo" required>
 
         <label for="Email">Email: </label>
@@ -54,7 +54,7 @@
     <p>¿Para qué día quisieras programar tu cita?</p>
     <br><br>
 
-    <input type="datetime-local" id="fecha" name="horario" value="fecha" required>
+    <input type="date" id="fecha" name="horario" required>
 
     <input class="button-send" type="submit" value="Enviar">
 
