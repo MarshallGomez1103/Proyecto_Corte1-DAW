@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
             total: total,
             FechaISO: fechaElegida,
             FechaTexto: (() => { const [y,m,d] = fechaElegida.split("-"); return `${d}/${m}/${y}`; })(),
+            fecha: fechaElegida,
 
         };
 
