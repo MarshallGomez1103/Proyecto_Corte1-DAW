@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const fechaInput = document.getElementById("fecha");
+    const tzOff = (new Date()).getTimezoneOffset() * 60000;
+    const todayLocalISO = new Date(Date.now() - tzOff).toISOString().slice(0, 10);
+    fechaInput.min = todayLocalISO;
+
+    fechaInput.addEventListener("change", () => {
+        if (fechaInput.value && fechaInput.value < todayLocalISO) {
+            alert("⛔ La fecha no puede ser anterior a hoy.");
+            fechaInput.value = todayLocalISO;
+        }
+    });
+
+
+
     const carrito = JSON.parse(localStorage.getItem("cart")) || [];
     const tabla = document.getElementById("tablaCarrito");
     const totalEl = document.getElementById("total");
@@ -26,6 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+
+        const fechaElegida = document.getElementById("fecha").value; // "YYYY-MM-DD"
+        if (!fechaElegida) { alert("⛔ Debes elegir la fecha de la cita."); return; }
+        if (fechaElegida < todayLocalISO) { alert("⛔ La fecha no puede ser anterior a hoy."); return; }
+
+
         // Datos del carrito
         const carrito = JSON.parse(localStorage.getItem("cart")) || [];
         const total = carrito.reduce((acc, p) => acc + p.price * p.quantity, 0);
@@ -38,8 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
             email: document.getElementById('Email').value,
             items: carrito,
             total: total,
-            Fecha: document.getElementById("fecha").value //
-};
+            FechaISO: fechaElegida,
+            FechaTexto: (() => { const [y,m,d] = fechaElegida.split("-"); return `${d}/${m}/${y}`; })(),
+
+        };
 
         try {
             const response = await fetch("https://script.google.com/macros/s/AKfycbzt6oPae9ha6xsV19rqpio2mm-8tPRDxTAz5RyjSR1w1PMy9BcAGzmQsZ3X2P4npX_V/exec", {
