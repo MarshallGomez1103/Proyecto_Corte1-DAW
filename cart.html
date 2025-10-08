@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style_index.css">
     <link rel="stylesheet" href="css/style_cart.css">
 
+    <!-- Incluimos el script de js_cart.js con un parámetro de versión para evitar problemas de caché -->
     <script src="js/js_cart.js?v=5" defer></script>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
@@ -21,7 +22,11 @@
     <h1 class="titulos"> Resumen de Compra </h1></header>
 
 <main class="resumen">
+
+    <!-- Tabla donde se imprimen los productos del carrito; el cuerpo se rellena dinámicamente -->
     <table>
+
+        <!-- Encabezados de la tabla con data-label para mejorar la visualización en dispositivos móviles -->
         <thead>
         <tr>
             <th data-label="Producto">Producto</th>
@@ -33,9 +38,11 @@
         <tbody id="tablaCarrito"></tbody>
     </table>
 
+    <!-- Muestra el total de la compra calculado por el script -->
     <h3 id="total"></h3>
 </main>
 
+<!-- Formulario de pedido con id "pedidoForm"; aquí se recogen los datos de contacto y la fecha -->
 <form id="pedidoForm">
     <div class="grid-contacto">
         <label for="Nombre">Nombre: </label>
@@ -54,8 +61,10 @@
     <p>¿Para qué día quisieras programar tu cita?</p>
     <br><br>
 
+    <!-- Input tipo date para que el usuario elija la fecha de la cita; el script establece la fecha mínima -->
     <input type="date" id="fecha" name="horario" required>
 
+    <!-- Botón de envío del formulario; al hacer clic se llama a la lógica de js_cart.js -->
     <input class="button-send" type="submit" value="Enviar">
 
 
