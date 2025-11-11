@@ -1,7 +1,7 @@
 // =============================
 // CONFIG
 // =============================
-const API_BASE = "https://ondasbackend-production.up.railway.app";
+const API_BASE = "https://ondas-backend-production.up.railway.app";
 
 // =============================
 // UTIL: decodificar JWT (para ver expiración)
@@ -140,3 +140,58 @@ document.addEventListener("DOMContentLoaded", () => {
     // Estado inicial (si ya hay token)
     renderAuthUI();
 });
+
+
+
+async function register(username, password, role="USER") {
+    const r = await fetch("https://ondas-backend-production.up.railway.app/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, role })
+    });
+    if(!r.ok) throw new Error("No se pudo registrar");
+    return r.json();
+}
+
+// ===== UI helpers para registro
+function openRegisterModal() {
+    document.getElementById("registerModal")?.classList.remove("hidden");
+}
+function closeRegisterModal() {
+    document.getElementById("registerModal")?.classList.add("hidden");
+}
+
+// ===== Conectar botones y form de registro
+document.addEventListener("DOMContentLoaded", () => {
+    // Abrir registro desde el botón
+    document.getElementById("btnOpenRegister")?.addEventListener("click", () => {
+        closeLoginModal(); // por si estabas en el login
+        openRegisterModal();
+    });
+
+    // Cerrar modal de registro
+    document.getElementById("btnCloseRegister")?.addEventListener("click", closeRegisterModal);
+
+    // Enviar formulario de registro
+    const regForm = document.getElementById("registerForm");
+    regForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const u = document.getElementById("regUsername").value.trim();
+        const p = document.getElementById("regPassword").value;
+        const r = document.getElementById("regRole").value || "USER";
+        try {
+            await register(u, p, r);               // usa tu función existente
+            alert("Usuario creado correctamente");
+
+            // (Opcional) Autocompletar y abrir login:
+            document.getElementById("username").value = u;
+            document.getElementById("password").value = p;
+            closeRegisterModal();
+            openLoginModal();
+        } catch (err) {
+            console.error("Registro falló:", err);
+            alert("No se pudo registrar");
+        }
+    });
+});
+

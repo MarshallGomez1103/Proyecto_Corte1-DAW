@@ -82,6 +82,7 @@
 <!-- ====== CONTROLES DE AUTENTICACIÓN ====== -->
 <div id="authBar" style="display:flex;gap:12px;align-items:center;margin-top:16px;">
     <button id="btnLogin" class="btn-login">Iniciar sesión</button>
+    <button id="btnOpenRegister" class="btn-secondary">Crear cuenta</button>
     <button id="btnLogout" class="btn-secondary hidden">Cerrar sesión</button>
     <span id="whoami" class="hidden">Sesión: <strong id="whoamiName"></strong></span>
 </div>
@@ -110,6 +111,35 @@
         </form>
     </div>
 </div>
+
+
+<!-- ====== MODAL DE REGISTRO ====== -->
+<div id="registerModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Registrarse</h2>
+        <form id="registerForm">
+            <label for="regUsername">Usuario:</label>
+            <input type="text" id="regUsername" required>
+
+            <label for="regPassword">Contraseña:</label>
+            <input type="password" id="regPassword" required>
+
+            <label for="regRole">Rol:</label>
+            <select id="regRole">
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+            </select>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn-primary">Crear</button>
+                <button type="button" id="btnCloseRegister" class="btn-secondary">Cancelar</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
 
 <!-- ====== ESTILOS Y SCRIPT ====== -->
 <link rel="stylesheet" href="css/login.css">
