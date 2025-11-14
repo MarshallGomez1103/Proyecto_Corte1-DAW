@@ -238,3 +238,41 @@ function eventosDescripcion(){
         }
     });
 }
+
+// BOTÓN QUE ABRE EL MODAL
+const btnOpenLogin = document.querySelector('.login_user');
+
+// MODAL DE LOGIN
+const loginModal = document.getElementById('loginModal');
+
+// BOTÓN DE CERRAR
+const btnCloseLogin = document.getElementById('btnClose');
+
+// ABRIR MODAL AL HACER CLIC EN EL ÍCONO
+btnOpenLogin.addEventListener('click', () => {
+    loginModal.classList.remove('hidden');
+});
+
+// CERRAR MODAL AL HACER CLIC EN "Cancelar"
+btnCloseLogin.addEventListener('click', () => {
+    loginModal.classList.add('hidden');
+});
+
+// BOTÓN QUE ABRE EL MODAL DE REGISTRO
+const btnOpenRegister = document.querySelector('.register_user');
+
+// MODAL DE REGISTRO
+const registerModal = document.getElementById('registerModal');
+
+// BOTÓN QUE CIERRA EL MODAL
+const btnCloseRegister = document.getElementById('btnCloseRegister');
+
+// ABRIR MODAL DE REGISTRO
+btnOpenRegister.addEventListener('click', () => {
+    registerModal.classList.remove('hidden');
+});
+
+// CERRAR MODAL DE REGISTRO
+btnCloseRegister.addEventListener('click', () => {
+    registerModal.classList.add('hidden');
+});
