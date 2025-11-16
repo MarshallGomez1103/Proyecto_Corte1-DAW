@@ -31,11 +31,25 @@ function closeLoginModal() {
     document.getElementById("loginModal")?.classList.add("hidden");
 }
 
+//funcion IMPORTANTISIMA ya que es la que carga cosas dependiendo del rol
 function renderAuthUI() {
-    const hasToken = !!sessionStorage.getItem("token");
-    document.getElementById("btnLogin")?.classList.toggle("hidden", hasToken);
-    document.getElementById("btnLogout")?.classList.toggle("hidden", !hasToken);
-    document.getElementById("whoami")?.classList.toggle("hidden", !hasToken);
+    const token = sessionStorage.getItem("token");
+    const role = sessionStorage.getItem("role");
+
+    const isAdmin = role === "ROLE_ADMIN" || role === "ADMIN";
+    const isLogged = !!token;
+
+    // ya tienes esto
+    document.getElementById("btnLogin")?.classList.toggle("hidden", isLogged);
+    document.getElementById("btnLogout")?.classList.toggle("hidden", !isLogged);
+    document.getElementById("whoami")?.classList.toggle("hidden", !isLogged);
+
+    // 🔥 NUEVO: botones exclusivos de admin
+    document.querySelectorAll(".adminOnly").forEach(btn => {
+        btn.classList.toggle("hidden", !isAdmin);
+    });
+
+    // nombre en la UI
     const name = sessionStorage.getItem("username") || "";
     const who = document.getElementById("whoamiName");
     if (who) who.textContent = name;
@@ -44,6 +58,7 @@ function renderAuthUI() {
 function logout() {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("username");
+    sessionStorage.removeItem("role");
     renderAuthUI();
     alert("Sesión cerrada");
 }
@@ -87,6 +102,9 @@ async function login() {
 
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("username", data.username || username);
+
+        sessionStorage.setItem("role", data.role);
+
 
         alert("Inicio de sesión exitoso");
         closeLoginModal();
