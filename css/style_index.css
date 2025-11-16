@@ -357,6 +357,12 @@ header{
     transition: all .5s;
     cursor: pointer;
 }
+.container-icon2 {
+    display: flex;
+    gap: 2rem;
+    transition: all .5s;
+    cursor: pointer;
+}
 
 .insta:hover {
     transform: scale(1.1);
@@ -707,4 +713,48 @@ form {
   border-radius: 6px;
   width: 100%;           /* ocupa el ancho de su celda, no de toda la pantalla */
   box-sizing: border-box;
+}
+.register_user{
+    position: fixed;
+    top: 20px;
+    right: 10px; /* mueve el botón más a la esquina */
+    width: 60px;
+    height: 60px;
+    background-color: rgb(108,172,212);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* que quede encima de TODO */
+    cursor: pointer;
+}
+
+.reg_user_icon{
+    width: 40px;
+    height: 40px;
+    color: #ffffff;
+}
+
+.login_user{
+    position: fixed;
+    top: 20px;
+    right: 75px; /* mueve el botón más a la esquina */
+    width: 60px;
+    height: 60px;
+    background-color: rgb(108,172,212);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* que quede encima de TODO */
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+.login_user_icon{
+    width: 40px;
+    height: 40px;
+    color: #ffffff;
+}
+#authBar {
+    display: none !important;
 }
