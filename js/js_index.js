@@ -5,12 +5,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     eventosDescripcion();      // Conecta los botones "+" de descripción
 });
 
-/*
-// Constante con la URL pública de la hoja de cálculo que sirve como API de servicios.
-const API_SERVICIOS= "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
-*/
 
-const API_SERVICIOS = "https://ondas-backend-production.up.railway.app/"
+const API_SERVICIOS = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
+
 
 // Declaramos cargarProductos() como función asincrónica para poder usar await en el fetch.
 async function cargarProductos() {
@@ -18,47 +15,95 @@ async function cargarProductos() {
         // Seleccionamos el contenedor .container_citas donde se renderizarán los servicios.
         const container = document.querySelector(".container_citas");
 
-        // Realizamos la solicitud HTTP a la URL de la API (Apps Script) para obtener los servicios.
+        // Realizamos la solicitud HTTP a la URL de la API para obtener los servicios.
         const response = await fetch(API_SERVICIOS);
 
-        // Convertimos la respuesta en un objeto JavaScript usando response.json().
-        const json = await response.json();
+        // Log basic response info to help debug (status, ok)
+        console.log(`Fetch ${API_SERVICIOS} -> status: ${response.status}, ok: ${response.ok}`);
 
-        // Extraemos la propiedad data del JSON; aquí viene el arreglo de servicios obtenido de Google Sheets.
-        const data = json.data;
+        // If the API requires authentication, provide a clear on-page message and try a local fallback.
+        if (!response.ok) {
+            if (response.status === 401) {
+                console.warn('API returned 401 Unauthorized — frontend fetch requires a token.');
+                container.innerHTML = '<p>Servicio no disponible públicamente (401 Unauthorized). Para desarrollo, coloque un archivo de prueba en <code>js/mock_products.json</code> o configure el endpoint para acceso público.</p>';
 
-        console.log("Productos recibidos:", data); // Para verificar
+                // Try to load a local mock JSON (developer convenience). This avoids exposing tokens in frontend.
+                try {
+                    const mockResp = await fetch('js/mock_products.json');
+                    if (mockResp.ok) {
+                        const mockJson = await mockResp.json();
+                        // use the mock data if it's an array or in a data property
+                        const mockData = Array.isArray(mockJson) ? mockJson : (mockJson.data || mockJson.items || []);
+                        if (mockData && mockData.length) {
+                            console.log('Loaded local mock_products.json for development.');
+                            data = mockData;
+                        }
+                    } else {
+                        console.info('No local mock_products.json found (or non-ok).');
+                    }
+                } catch (e) {
+                    console.info('Failed to load local mock_products.json:', e);
+                }
+            } else {
+                console.error('Fetch failed with status', response.status);
+                container.innerHTML = `<p>Error cargando servicios (status ${response.status}). Revisa la consola.</p>`;
+            }
+        }
+
+       // Convertimos la respuesta en un objeto JavaScript usando response.json()
+const json = await response.json();
+
+let data = [];
+if (Array.isArray(json)) {
+    data = json;
+} else if (json && typeof json === 'object') {
+    // Ajusta aquí según los nombres reales que devuelva tu API
+    data = json.data || json.items || json.services || json.result || [];
+}
+
+// Para depurar: imprime la respuesta completa y los datos inferidos
+console.log("Respuesta completa de la API:", json);
+console.log("Productos recibidos (inferred):", data);
+
 
         // Limpiamos el contenedor antes de insertar las nuevas tarjetas para evitar duplicados.
         container.innerHTML = "";
 
+        // If no data, show a friendly message instead of throwing an error.
+        if (!data || !data.length) {
+            console.warn('No products returned by API or empty array. Full response:', json);
+            container.innerHTML = '<p>No hay servicios disponibles por el momento.</p>';
+            return;
+        }
+
         // Iteramos sobre cada objeto de data para construir la tarjeta de servicio con sus datos (imagen, título, precio, video...).
         data.forEach(prod => {
             const productoHTML = `
-                <div class="citas">
-                    <figure>
-                        <img src="${prod.imagen_url}" alt="${prod.titulo}">
-                    </figure>
-                    <div class="info_cita">
-                        <div class="info">
-                            <h2 class="titulo">${prod.titulo}</h2>
-                            <button class="plus">+</button>
-                        </div>
-                        <p class="price" data-price="${prod.precio}">$${prod.precio}</p>
-                        <div class="container-info-products hidden-info">
-                            <div class="descripcion hidden-info">
-                                <h3>Descripción:</h3>
-                                <p class="descripcion">${prod.descripcion}</p>
-                            </div>
-                            ${prod.video_url ? `
-                            <div class="video">
-                                <iframe width="100%" height="200" src="${prod.video_url}" frameborder="0" allowfullscreen></iframe>
-                            </div>` : ""}
-                        </div>
-                        <button class="boton btn-add-cart">Add to cart</button>
-                    </div>
+    <div class="citas" data-id="${prod.id}">
+        <figure>
+            <img src="${prod.imagen_url}" alt="${prod.titulo}">
+        </figure>
+        <div class="info_cita" data-id="${prod.id}">
+            <div class="info">
+                <h2 class="titulo">${prod.titulo}</h2>
+                <button class="plus">+</button>
+            </div>
+            <p class="price" data-price="${prod.precio}">$${prod.precio}</p>
+            <div class="container-info-products hidden-info">
+                <div class="descripcion hidden-info">
+                    <h3>Descripción:</h3>
+                    <p class="descripcion">${prod.descripcion}</p>
                 </div>
-            `;
+                ${prod.video_url ? `
+                <div class="video">
+                    <iframe width="100%" height="200" src="${prod.video_url}" frameborder="0" allowfullscreen></iframe>
+                </div>` : ""}
+            </div>
+            <button class="boton btn-add-cart">Add to cart</button>
+        </div>
+    </div>
+`;
+
             // Añadimos el HTML generado de cada servicio al contenedor de la página.
             container.innerHTML += productoHTML;
         });
@@ -110,75 +155,66 @@ const cartTotal = document.querySelector('.cart-total');    // Sección que mues
 
 // Función que se ejecutará después de cargar los productos y enlaza los eventos para añadir al carrito.
 function agregarEventos(){
-    // Escuchamos los clics en el contenedor de productos para usar delegación de eventos.
     productsList.addEventListener("click", e => {
-
-        // Detectamos si el clic proviene de un botón “Add to cart”.
         if(e.target.classList.contains("btn-add-cart")){
-            const product = e.target.closest(".info_cita")
+            const product = e.target.closest(".info_cita");
             const priceEl = product.querySelector(".price");
 
-            // Creamos un objeto con la información del producto seleccionado: cantidad inicial, título y precio.
             const infoProduct = {
+                id: product.dataset.id, // ID único
                 quantity: 1,
                 title: product.querySelector("h2").textContent,
                 price: Number(priceEl.dataset.price),
                 priceText: priceEl.textContent
-            }
+            };
 
-            // Verificamos si el producto ya está en el carrito usando some().
-            const exist = allProducts.some(p => p.title === infoProduct.title)
+            const exist = allProducts.some(p => p.id === infoProduct.id);
 
-            // Si ya existe, recorremos el arreglo y aumentamos su cantidad en una unidad.
             if (exist){
                 allProducts = allProducts.map(p =>{
-                    if(p.title === infoProduct.title){
+                    if(p.id === infoProduct.id){
                         p.quantity++;
                     }
                     return p;
-                })
+                });
             } else {
-                // Si el producto aún no está en el carrito, lo agregamos con cantidad 1.
-                allProducts.push(infoProduct)
+                allProducts.push(infoProduct);
             }
 
-            // Llamamos a showHTML() para refrescar la vista del carrito después de añadir un producto.
-            showHTML()
+            showHTML();
         }
-
     });
 }
+
 
 
 
 // ==================== ELIMINAR PRODUCTOS DEL CARRITO ====================
 
 // Delegamos en rowProduct el evento de clic para manejar la eliminación de productos del carrito.
+// ==================== ELIMINAR PRODUCTOS DEL CARRITO ====================
+
+// Delegamos en rowProduct el evento de clic para manejar la eliminación de productos del carrito.
 rowProduct.addEventListener('click', (e) => {
-    // Verifica si el elemento clickeado es el icono de cerrar
     if (e.target.classList.contains('icon-close')) {
         // Encuentra el contenedor del producto a eliminar
         const productEl = e.target.closest('.cart-product');
-        // Obtiene el título del producto
-        const title = productEl.querySelector('.titulo-producto-carrito').textContent;
+        // Obtiene el ID único del producto desde el atributo data-id
+        const id = productEl.dataset.id;
 
-        // Buscamos en allProducts el índice del producto con el mismo título que el clicado.
-        const i = allProducts.findIndex(p => p.title === title);
+        // Buscamos en allProducts el índice del producto con el mismo ID
+        const i = allProducts.findIndex(p => p.id === id);
         if (i !== -1) {
-
-            // Si hay más de una unidad del producto en el carrito, restamos una.
             if (allProducts[i].quantity > 1) {
                 allProducts[i].quantity -= 1;
             } else {
-
-                // Si solo queda una unidad, eliminamos el elemento del arreglo allProducts.
                 allProducts.splice(i, 1);
             }
         }
-        // Actualiza la visualización HTML del carrito
         showHTML();
     }
 });
+
 
 const btnPagar  =  document.querySelector(".btn-pagar");
 
@@ -186,27 +222,28 @@ const btnPagar  =  document.querySelector(".btn-pagar");
 // Función que renderiza el contenido del carrito flotante y actualiza totales y visibilidad según haya productos o no.
 
 const showHTML = () => {
-if (!allProducts.length) {
+    if (!allProducts.length) {
         cartEmpty.classList.remove('hidden');
         btnPagar.classList.add("hidden");
         rowProduct.classList.add('hidden');
         cartTotal.classList.add('hidden');
-    rowProduct.innerHTML = '';
+        rowProduct.innerHTML = '';
     } else {
-    cartEmpty.classList.add('hidden');
-    rowProduct.classList.remove('hidden');
-    cartTotal.classList.remove('hidden');
-     btnPagar.classList.remove("hidden");
+        cartEmpty.classList.add('hidden');
+        rowProduct.classList.remove('hidden');
+        cartTotal.classList.remove('hidden');
+        btnPagar.classList.remove("hidden");
     }
 
-rowProduct.innerHTML = "";
- let total = 0;
-let totalOfProducts = 0;
+    rowProduct.innerHTML = "";
+    let total = 0;
+    let totalOfProducts = 0;
 
-    // Recorremos todos los productos en el carrito, creamos su representación HTML y calculamos totales.
     allProducts.forEach(product => {
         const containerProduct = document.createElement("div");
         containerProduct.classList.add("cart-product");
+        // Guardamos el ID en data-id para poder eliminarlo después
+        containerProduct.dataset.id = product.id;
         containerProduct.innerHTML = `
             <div class="info-cart-product">
                 <span class="cantidad-producto-carrito">${product.quantity}</span>
@@ -223,9 +260,9 @@ let totalOfProducts = 0;
     valorTotal.innerText = `$${total.toLocaleString('es-CO')}`;
     countProducts.innerText = totalOfProducts;
 
-     // Guardamos el arreglo allProducts en localStorage para que el carrito persista entre páginas.
     localStorage.setItem("cart", JSON.stringify(allProducts));
-}
+};
+
 
 //Aqui esta lo de la informacion de cada cita
 
