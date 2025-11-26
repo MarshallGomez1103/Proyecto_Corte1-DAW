@@ -1,7 +1,7 @@
 // =============================
 // CONFIG
 // =============================
-const API_BASE = "https://ondas-backend-production.up.railway.app";
+const API_BASE = "responsible-compassion-production.up.railway.app";
 
 // =============================
 // UTIL: decodificar JWT (para ver expiración)
