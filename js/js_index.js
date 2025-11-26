@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-const API_SERVICIOS = "responsible-compassion-production.up.railway.app";
+const API_SERVICIOS = "https://responsible-compassion-production.up.railway.app";
 
 
 // Declaramos cargarProductos() como función asincrónica para poder usar await en el fetch.
