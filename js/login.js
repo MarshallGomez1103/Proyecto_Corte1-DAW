@@ -1,7 +1,7 @@
 // =============================
 // CONFIG
 // =============================
-const API_BASE = "https://ondas-backend-production.up.railway.app";
+const API_BASE = "https://marshallgomez1103.github.io/Proyecto_Corte1-DAW/";
 
 // =============================
 // UTIL: decodificar JWT (para ver expiración)
