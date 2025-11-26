@@ -6,7 +6,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-const API_SERVICIOS = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
+//const API_SERVICIOS = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj2lDd3cH4rg4fUaTdJ8K1-UXmcCdWxnJ5SzGck3YQTt3Qutu2iN85_ypSxsurkYrNCV69q7okRautRMz_17GAXJAtKbvlG3tM-rqppeV9q__6LNlSYWkTWj44BuuwnNOxbKTLiSfKZEZPYWQi5GyGsG9N0lcTfTrXZa2QoY0VB0J-n4Me__NpLKUFvLNj8U3Y5tVipCuHDdWq6OLfQWi8oNuHrNeR1oHf6klX0xPY6eLtmj389XLTueiV8vrlEWt5Qqj2fmU21VEmTdIyoH5BAnWAQ5Q&lib=M8ZCrH4fQfZ8NkbbbtWtNwRC7RMnafDNM";
+
+const API_SERVICIOS = "responsible-compassion-production.up.railway.app";
 
 
 // Declaramos cargarProductos() como función asincrónica para poder usar await en el fetch.
